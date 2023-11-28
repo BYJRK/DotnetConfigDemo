@@ -4,7 +4,7 @@ namespace ConfigDemo.Shared.Settings;
 
 public sealed class UserSettings : ConfigurationSection
 {
-    public static UserSettings Instance { get; } = (UserSettings)GlobalConfigManager.Instance.GetSection("userSettings");
+    public static UserSettings Instance { get; } = (UserSettings)GlobalSettings.Instance.GetSection("userSettings");
     
     [ConfigurationProperty("windowSize", DefaultValue = "100x100")]
     public string WindowSize

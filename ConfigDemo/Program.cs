@@ -1,18 +1,18 @@
 ﻿using System.Configuration;
+using ConfigDemo.Core;
 using ConfigDemo.Shared;
 using ConfigDemo.Shared.Settings;
 
 Console.WriteLine("Loading configuration file...");
 
-var config = GlobalConfigManager.Instance;
+var config = GlobalSettings.Instance;
 
 var settings = UserSettings.Instance;
 
 Console.WriteLine("Configuration file loaded.");
 
-Console.WriteLine($"WindowSize: {settings.WindowSize}");
-Console.WriteLine($"Flag: {settings.Flag}");
-Console.WriteLine($"Interval: {settings.Interval}");
+var device = new MyDevice(settings);
+device.Foo();
 
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
