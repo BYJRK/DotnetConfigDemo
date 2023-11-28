@@ -1,19 +1,34 @@
-﻿using System.Configuration;
+using System.Configuration;
 using ConfigDemo.Shared.Settings;
 
 namespace ConfigDemo.Shared;
 
 public static class GlobalSettings
 {
-    public static Configuration Instance { get; }
+    // 确保当前类在初始化后被使用
+    private static Configuration backfield = null!;
 
-    static GlobalSettings()
+    public static Configuration Instance
     {
-        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ConfigDemo.dll");
-        Console.WriteLine(path);
-        Instance = ConfigurationManager.OpenExeConfiguration(path);
-        if(Instance.GetSection("userSettings") is null)
+        get
+        {
+            if (backfield is null)
+                throw new NullReferenceException($"{nameof(GlobalSettings)} 未初始化。");
+            return backfield;
+        }
+        private set => backfield = value;
+    }
+
+    public static void Setup(Configuration configuration)
+    {
+        var map = new ExeConfigurationFileMap
+        {
+            ExeConfigFilename = "ConfigDemo.dll.config"
+        };
+        Instance = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
+        if (Instance.GetSection("userSettings") is null)
             Instance.Sections.Add("userSettings", new UserSettings());
+
         Instance.Save();
     }
 }
