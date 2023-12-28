@@ -4,9 +4,11 @@
 
 ## 为什么将 `App.config` 称为传统方式？
 
-因为自 .NET Core 以来，诞生了新的 JSON 格式的配置方式，即 `appsettings.json`，而不再推荐使用传统的 XML 格式的 `App.config`。
+自 .NET Core 以来，诞生了新的 JSON 格式的配置方式，即 `appsettings.json`，而不再推荐使用传统的 XML 格式的 `App.config`。新的配置方式提供了更多新的功能，比如多个配置文件共存且存在优先级，以及获取环境变量等功能，这些都是传统方式不具备的。
 
-以及，新版的 .NET 项目中，也不再推荐使用 `ConfigurationManager` 来读取配置项，而是使用 `IConfiguration` 接口。
+但另一方面，传统方式提供了一套成熟的在运行时修改配置项并保存生效的机制，这也是新的方式不具备的；另外，传统方式还可以选择在程序根目录以外的位置（如用户目录下的存放程序缓存的路径）存放，从而区分不同的用户等，依旧存在自己的优势，所以并不能被新方法完全取代。
+
+新版的 .NET 项目中，不再推荐使用 `ConfigurationManager` 来管理配置项，而是推荐使用 `IConfiguration` 接口。
 
 另外，一些 .NET 新版本的一些新特性并不是很兼容传统的方式，尤其是发布单一文件（`PublishSingleFile`），极有可能会导致 `ConfigurationManager.OpenExeConfiguration()` 方法无法顺利读取配置文件。
 
